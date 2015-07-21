@@ -24,35 +24,17 @@ function onClick(event)
     state++;
   }
   var picture=document.getElementById('picture');
-  switch(state)
-  {
-    case 1:
-    picture.setAttribute('src','images/picture01.jpg');
-    break;
-    case 2:
-    picture.setAttribute('src','images/picture02.jpg');
-    break;
-    case 3:
-    picture.setAttribute('src','images/picture03.jpg');
-    break;
-    case 4:
-    picture.setAttribute('src','images/picture04.jpg');
-    break;
-    case 5:
-    picture.setAttribute('src','images/picture05.jpg');
-    break;
-    case 6:
-    picture.setAttribute('src','images/picture06.jpg');
+
+    picture.setAttribute('src','images/picture0' + state + '.jpg');
+
+    if (state==6){
     alert('Prehral si.');
     for (var btn of document.getElementById('alphabet').childNodes)
     {
       btn.setAttribute('disabled','disabled');
     }
-    break;
-    default:
-    break;
-
   }
+
   lettersGuessed+=event.target.textContent;
 
   var adress=document.getElementById('secret');
@@ -69,6 +51,7 @@ function onClick(event)
 }
 function restart()
 {
+  picture.setAttribute('src','images/picture00.jpg');
   state=0;
   lettersGuessed='';
   var adress=document.getElementById('secret');
