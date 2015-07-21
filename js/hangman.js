@@ -1,6 +1,5 @@
 var secret ='JAVASCRIPT';
-var lettersGuessed='';
-var state=0;
+
 
 function getGuessedWord(secret, lettersGuessed)
 {
@@ -45,7 +44,7 @@ function onClick(event)
     case 6:
     picture.setAttribute('src','images/picture06.jpg');
     alert('Prehral si.');
-    for(var btn of document.getElementById('alphabet'))
+    for (var btn of document.getElementById('alphabet').childNodes)
     {
       btn.setAttribute('disabled','disabled');
     }
@@ -62,19 +61,36 @@ function onClick(event)
   if(returned.indexOf('_')<0)
   {
     alert('Vyhral si');
-        for(var btn of document.getElementById('alphabet'))
+        for(var btn of document.getElementById('alphabet').childNodes)
     {
-      btn.setAttribute('disabled','disabled');
+      btn.setAttribute('disabled','true');
     }
   }
 }
+function restart()
+{
+  state=0;
+  lettersGuessed='';
+  var adress=document.getElementById('secret');
+  returned=getGuessedWord(secret, lettersGuessed);
+  adress.textContent=returned;
+  for(var btn of document.getElementById('alphabet').childNodes)
+    {
+      btn.removeAttribute('disabled');
+    }
+}
+
 window.onload=function(){
+  restart();
+  var reset=document.getElementById('restart');
+  reset.addEventListener('click',restart);
   var group=document.getElementById('alphabet');
 
 for(var i=65;i<91;i++)
 {
   el=document.createElement('button');
   el.setAttribute('type','button');
+  el.setAttribute('id','button');
   el.setAttribute('class','btn btn-primary');
   el.addEventListener('click',onClick);
   el.textContent=String.fromCharCode(i);
