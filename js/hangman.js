@@ -1,4 +1,5 @@
 var secret ='JAVASCRIPT';
+var remove=0;
 
 
 function getGuessedWord(secret, lettersGuessed)
@@ -18,7 +19,11 @@ function getGuessedWord(secret, lettersGuessed)
 function onClick(event)
 {
   //deactive button
+  lettersGuessed+=event.target.textContent;
   event.target.setAttribute('disabled','disabled');
+  var adress=document.getElementById('secret');
+  var returned=getGuessedWord(secret, lettersGuessed);
+  adress.textContent=returned;
   if(secret.indexOf(event.target.textContent)<0)
   {
     state++;
@@ -29,17 +34,45 @@ function onClick(event)
 
     if (state==6){
     alert('Prehral si.');
+    remove=1;
     for (var btn of document.getElementById('alphabet').childNodes)
     {
       btn.setAttribute('disabled','disabled');
     }
+    //remove element with id secret
+    var element = document.getElementById("secret");
+    element.parentNode.removeChild(element);
+    //in element with id divsecretr creat new element div with id secret
+    var divsec=document.getElementById('divsecret');
+    elem=document.createElement('div');
+    elem.setAttribute('class','col-md-12 text-center');
+    elem.setAttribute('id','secret');
+    //show element
+    divsec.appendChild(elem);
+    //get address of element - secret
+    var sec=document.getElementById('secret');
+    for(var i=0;i<secret.length;i++)
+    {
+        if(returned.charAt(i)!=secret.charAt(i))
+        {
+          ele=document.createElement('span');
+          ele.setAttribute('style','color:red');
+          sec.appendChild(ele);
+          ele.textContent=secret.charAt(i);
+        }
+        else
+        {
+          ele=document.createElement('span');
+          ele.setAttribute('style','color:#000000');
+          sec.appendChild(ele);
+          ele.textContent=secret.charAt(i);
+        }
+    }
   }
 
-  lettersGuessed+=event.target.textContent;
+  
 
-  var adress=document.getElementById('secret');
-  var returned=getGuessedWord(secret, lettersGuessed);
-  adress.textContent=returned;
+
   if(returned.indexOf('_')<0)
   {
     alert('Vyhral si');
@@ -53,6 +86,16 @@ function restart()
 {
   picture.setAttribute('src','images/picture00.jpg');
   state=0;
+  if(remove==1)
+  {
+    var element = document.getElementById("secret");
+    element.parentNode.removeChild(element);
+    var divsec=document.getElementById('divsecret');
+    elem=document.createElement('span');
+    elem.setAttribute('id','secret');
+    divsec.appendChild(elem);
+  }
+  remove=0;
   lettersGuessed='';
   var adress=document.getElementById('secret');
   returned=getGuessedWord(secret, lettersGuessed);
