@@ -19,11 +19,7 @@ function getGuessedWord(secret, lettersGuessed)
 function onClick(event)
 {
   //deactive button
-  lettersGuessed+=event.target.textContent;
-  event.target.setAttribute('disabled','disabled');
-  var adress=document.getElementById('secret');
-  var returned=getGuessedWord(secret, lettersGuessed);
-  adress.textContent=returned;
+
   if(secret.indexOf(event.target.textContent)<0)
   {
     state++;
@@ -31,14 +27,28 @@ function onClick(event)
   var picture=document.getElementById('picture');
 
     picture.setAttribute('src','images/picture0' + state + '.jpg');
-
+  lettersGuessed+=event.target.textContent;
+  event.target.setAttribute('disabled','disabled');
+  var adress=document.getElementById('secret');
+  var returned=getGuessedWord(secret, lettersGuessed);
+  adress.textContent=returned;
     if (state==6){
-    alert('Prehral si.');
-    remove=1;
+      alert('Prehral si.');
+      remove=1;
+    /*
     for (var btn of document.getElementById('alphabet').childNodes)
     {
       btn.setAttribute('disabled','disabled');
     }
+    */
+      $( "button" ).each(function() {
+        if ( $( this ).is( "#restart" ) ) {
+        }
+        else
+        {
+          $( this ).attr( 'disabled','disabled' );
+        }
+      });
     //remove element with id secret
     var element = document.getElementById("secret");
     element.parentNode.removeChild(element);
@@ -76,10 +86,19 @@ function onClick(event)
   if(returned.indexOf('_')<0)
   {
     alert('Vyhral si');
+    /*
         for(var btn of document.getElementById('alphabet').childNodes)
     {
       btn.setAttribute('disabled','true');
-    }
+    }*/
+          $( "button" ).each(function() {
+        if ( $( this ).is( "#restart" ) ) {
+        }
+        else
+        {
+          $( this ).attr( 'disabled','disabled' );
+        }
+      });
   }
 }
 function restart()
@@ -100,13 +119,18 @@ function restart()
   var adress=document.getElementById('secret');
   returned=getGuessedWord(secret, lettersGuessed);
   adress.textContent=returned;
-  for(var btn of document.getElementById('alphabet').childNodes)
+  /*for(var btn of document.getElementById('alphabet').childNodes)
     {
       btn.removeAttribute('disabled');
-    }
+    }*/
+      $( "button" ).each(function() {
+        if (( $( this ).is( "#restart" )==false )&&($( this.disabled ))) {
+        $( this ).removeAttr( "disabled" );
+      }
+      });
 }
 
-window.onload=function(){
+
   restart();
   var reset=document.getElementById('restart');
   reset.addEventListener('click',restart);
@@ -123,5 +147,4 @@ for(var i=65;i<91;i++)
 
   group.appendChild(el);
 
-}
 }
